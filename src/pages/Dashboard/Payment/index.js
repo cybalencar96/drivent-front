@@ -1,3 +1,9 @@
+import StyledTypography from "../../../components/DashboardTitle";
+
 export default function Payment() {
-  return "Pagamento: Em breve!";
+  return (
+    <>
+      <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+    </>
+  );
 }
