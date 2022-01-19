@@ -1,9 +1,9 @@
-import StyledTypography from "../../../components/DashboardTitle";
+import { DashboardTitle } from "../../../components/DashboardTitle";
 
 export default function Payment() {
   return (
     <>
-      <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+      <DashboardTitle variant="h4">Ingresso e pagamento</DashboardTitle>
     </>
   );
 }

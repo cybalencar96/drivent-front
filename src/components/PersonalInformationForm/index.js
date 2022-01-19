@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import DateFnsUtils from "@date-io/date-fns";
 import { toast } from "react-toastify";
@@ -19,13 +19,15 @@ import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
-import StyledTypography from "../DashboardTitle";
+import { DashboardTitle } from "../DashboardTitle";
+import UserContext from "../../contexts/UserContext";
 
 dayjs.extend(CustomParseFormat);
 
 export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
+  const { userData, setUserData } = useContext(UserContext);
 
   const {
     handleSubmit,
@@ -56,6 +58,9 @@ export default function PersonalInformationForm() {
 
       enrollment.save(newData).then(() => {
         toast("Salvo com sucesso!");
+        userData.user.enrolled = true;
+
+        setUserData({ ...userData });
       }).catch((error) => {
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {
@@ -139,7 +144,7 @@ export default function PersonalInformationForm() {
 
   return (
     <>
-      <StyledTypography variant="h4">Suas Informações</StyledTypography>
+      <DashboardTitle variant="h4">Suas Informações</DashboardTitle>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
           <InputWrapper>
