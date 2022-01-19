@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { DashboardTitle } from "../../../components/DashboardTitle";
 import UserContext from "../../../contexts/UserContext";
 import { NoContent } from "../../../components/NoContent";
+import { PaymentCard } from "../../../components/PaymentCard";
 
 export default function Payment() {
   const { userData } = useContext(UserContext);
@@ -10,7 +11,7 @@ export default function Payment() {
     <>
       <DashboardTitle variant="h4">Ingresso e pagamento</DashboardTitle>
       {
-        !userData.user.enrolled ? <NoContent text={text} /> : ""
+        !userData.user.enrolled ? <NoContent text={text} /> : <PaymentCard title="Online" price={100}/>
       }
     </>
   );
