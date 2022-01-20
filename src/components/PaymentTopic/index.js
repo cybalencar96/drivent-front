@@ -1,17 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { PaymentCard } from "../PaymentCard";
 import { DashboardTopicTitle } from "../DashboardTopicTitle";
-import UserContext from "../../contexts/UserContext";
 
-export function PaymentTopic({ topic, text, cards }) {
+export function PaymentTopic({ topic, text, cards = [], paymentInfos, updatePaymentInfos }) {
   const [selectedCard, setSelectedCard] = useState({});
-  const { userData, setUserData } = useContext(UserContext);
 
   const handleClick = (card) => () => {
     setSelectedCard(card);
-    userData[topic] = card;
-    setUserData({ ...userData });
+    paymentInfos[topic] = card;
+    updatePaymentInfos({ topic, card });
   };
 
   return (
