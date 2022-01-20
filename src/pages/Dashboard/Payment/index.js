@@ -3,6 +3,7 @@ import { DashboardTitle } from "../../../components/DashboardTitle";
 import UserContext from "../../../contexts/UserContext";
 import { NoContent } from "../../../components/NoContent";
 import { PaymentTopic } from "../../../components/PaymentTopic";
+import Button from "../../../components/Form/Button";
 
 const textTopic1 = "Primeiro, escolha sua modalidade de ingresso";
 const textTopic2 = "Ótimo! Agora escolha sua modalidade de hospedagem";
@@ -22,7 +23,6 @@ const hotelModalities = [
 export default function Payment() {
   const { userData } = useContext(UserContext);
   const [paymentInfos, setPaymentInfos] = useState({});
-  console.log(paymentInfos);
 
   const updatePaymentInfos = (data) => {
     if (data.topic === "ticketType" && data.card.name === "Online") {
@@ -41,8 +41,11 @@ export default function Payment() {
           <>
             <PaymentTopic text={textTopic1} cards={tickets} topic="ticketType" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
             { paymentInfos.ticketType?.name === "Presencial" && <PaymentTopic text={textTopic2} cards={hotelModalities} topic="hotelModality" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/> }
-            { (paymentInfos.ticketType?.name === "Online" || paymentInfos.hotelModality?.name) && 
-              <PaymentTopic text={textTopicEnd} paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/> 
+            { (paymentInfos.ticketType?.name === "Online" || paymentInfos.hotelModality?.name) &&
+              <>
+                <PaymentTopic text={textTopicEnd} paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
+                <Button>RESERVAR INGRESSO</Button>
+              </>
             }
           </>
       }
