@@ -3,17 +3,17 @@ import styled from "styled-components";
 import useApi from "../../hooks/useApi";
 
 export default function HotelInfo() {
-  const [isPaid, setIsPaid] = useState(null);
+  const [ticket, setTicket] = useState(null);
   const api = useApi();
 
   useEffect(() => {
-    const paymentPromise = api.payment.getPaymentStatus();
-    paymentPromise.then((res) => setIsPaid(res.data.isPaid));
+    const paymentPromise = api.ticket.getTicket();
+    paymentPromise.then((res) => setTicket(res.data));
   }, []);
 
-  return isPaid === null ? (
+  return ticket === null ? (
     ""
-  ) : isPaid === false ? (
+  ) : ticket.isPaid === false ? (
     <Container>
       Você precisa ter confirmado pagamento antes
       <br /> de fazer a escolha de hospedagem
