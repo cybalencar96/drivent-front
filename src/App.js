@@ -1,6 +1,6 @@
 import {
   BrowserRouter as Router,
-  Switch
+  Switch,
 } from "react-router-dom";
 import { useContext } from "react";
 import dayjs from "dayjs";
