@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import ConditionalRoute from "./components/Router/ConditionalRoute";
 
 import Countdown from "./pages/Countdown";
-import Enroll from "./pages/Enroll";
+import Enroll from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 
