@@ -9,12 +9,13 @@ import { ToastContainer } from "react-toastify";
 import ConditionalRoute from "./components/Router/ConditionalRoute";
 
 import Countdown from "./pages/Countdown";
-import Enroll from "./pages/Enroll";
+import Enroll from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 
 import EventInfoContext, { EventInfoProvider } from "./contexts/EventInfoContext";
 import UserContext, { UserProvider } from "./contexts/UserContext";
+import { TicketInfoProvider } from "./contexts/TicketInfoContext";
 
 export default function App() {
   return (
@@ -22,25 +23,27 @@ export default function App() {
       <ToastContainer />
       <EventInfoProvider>
         <UserProvider>
-          <Router>
-            <Switch>
-              <ConditionalRoute check={ensureCountdownOngoing} path="/" exact>
-                <Countdown />
-              </ConditionalRoute>
+          <TicketInfoProvider>
+            <Router>
+              <Switch>
+                <ConditionalRoute check={ensureCountdownOngoing} path="/" exact>
+                  <Countdown />
+                </ConditionalRoute>
 
-              <ConditionalRoute check={ensureCountdownOver} path="/enroll" exact>
-                <Enroll />
-              </ConditionalRoute>
+                <ConditionalRoute check={ensureCountdownOver} path="/enroll" exact>
+                  <Enroll />
+                </ConditionalRoute>
 
-              <ConditionalRoute check={ensureCountdownOver} path="/sign-in" exact>
-                <SignIn />
-              </ConditionalRoute>
+                <ConditionalRoute check={ensureCountdownOver} path="/sign-in" exact>
+                  <SignIn />
+                </ConditionalRoute>
 
-              <ConditionalRoute check={ensureAuthenticated} path="/dashboard">
-                <Dashboard />
-              </ConditionalRoute>
-            </Switch>
-          </Router>
+                <ConditionalRoute check={ensureAuthenticated} path="/dashboard">
+                  <Dashboard />
+                </ConditionalRoute>
+              </Switch>
+            </Router>
+          </TicketInfoProvider>
         </UserProvider>
       </EventInfoProvider>
     </>
