@@ -34,6 +34,7 @@ export function PaymentTopic({ topic, text, cards = [], paymentInfos, updatePaym
 }
 
 const Container = styled.div`
+    margin-top: 20px;
     div {
         display: flex;
         gap: 20px;

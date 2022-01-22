@@ -25,7 +25,7 @@ export default function DetailsPayment() {
       type = 3;
     }
 
-    api.Payment.pay({
+    api.ticket.payTicket({
       body: {
         user: userData.user.id, type
       }
@@ -52,20 +52,7 @@ export default function DetailsPayment() {
         }
       });
     }
-  // }
   }, [userData]);
-  // if (userData.user?.paid?.type) {
-  //   setTicketInfo({
-  //     hotelModality: {
-  //       name: userData.user.paid.type.name.split("+")[1],
-  //       price: Math.floor(userData.user.paid.type.hotelPrice)
-  //     },
-  //     ticketType: {
-  //       name: userData.user.paid.type.name.split("+")[0],
-  //       price: Math.floor(userData.user.paid.type.price)
-  //     }
-  //   });
-  // }
 
   return (
     <Container>

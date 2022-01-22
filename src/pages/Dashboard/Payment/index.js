@@ -7,9 +7,12 @@ import Button from "../../../components/Form/Button";
 import {  useHistory } from "react-router";
 import TicketInfoContext from "../../../contexts/TicketInfoContext";
 
-const textTopic1 = "Primeiro, escolha sua modalidade de ingresso";
-const textTopic2 = "Ótimo! Agora escolha sua modalidade de hospedagem";
-const textNoEnroll = "Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso";
+const text = {
+  topic1: "Primeiro, escolha sua modalidade de ingresso",
+  topic2: "Ótimo! Agora escolha sua modalidade de hospedagem",
+  topicEnd: "Fechado! O total ficou em R$ 600. Agora é só confirmar:",
+  noEnroll: "Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso"
+};
 
 const tickets = [
   { key: 0, name: "Presencial", price: 250 },
@@ -28,7 +31,7 @@ export default function Payment() {
 
   const history = useHistory();
 
-  const textTopicEnd = `Fechado! O total ficou em R$ ${paymentInfos?.hotelModality === undefined ? paymentInfos?.ticketType?.price :  paymentInfos?.hotelModality?.price + paymentInfos?.ticketType?.price}. Agora é só confirmar:`;
+  text.topicEnd = `Fechado! O total ficou em R$ ${paymentInfos?.hotelModality === undefined ? paymentInfos?.ticketType?.price :  paymentInfos?.hotelModality?.price + paymentInfos?.ticketType?.price}. Agora é só confirmar:`;
 
   const updatePaymentInfos = (data) => {
     if (data.topic === "ticketType" && data.card.name === "Online") {
@@ -56,22 +59,21 @@ export default function Payment() {
           price: Math.floor(userData.user.paid.type.price)
         }
       });
+      history.push("/dashboard/payment/details");
     }
-    history.push("/dashboard/payment/details");
-  // }
   }, [userData]);
 
   return (
     <>
       <DashboardTitle variant="h4">Ingresso e pagamento</DashboardTitle>
       {
-        !userData.user.enrolled ? <NoContent text={textNoEnroll} /> : 
+        !userData.user.enrolled ? <NoContent text={text.noEnroll} /> : 
           <>
-            <PaymentTopic text={textTopic1} cards={tickets} topic="ticketType" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
-            { paymentInfos.ticketType?.name === "Presencial" && <PaymentTopic text={textTopic2} cards={hotelModalities} topic="hotelModality" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/> }
+            <PaymentTopic text={text.topic1} cards={tickets} topic="ticketType" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
+            { paymentInfos.ticketType?.name === "Presencial" && <PaymentTopic text={text.topic2} cards={hotelModalities} topic="hotelModality" paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/> }
             { (paymentInfos.ticketType?.name === "Online" || paymentInfos.hotelModality?.name) &&
               <>
-                <PaymentTopic text={textTopicEnd} paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
+                <PaymentTopic text={text.topicEnd} paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
                 <Button onClick={() => nextPage(paymentInfos)}>RESERVAR INGRESSO</Button>
               </>
             }
