@@ -41,6 +41,10 @@ export default function Payment() {
     history.push("/dashboard/payment/details");
   };
 
+  if (userData.user.paid) {
+    history.push("/dashboard/payment/details");
+  }
+
   return (
     <>
       <DashboardTitle variant="h4">Ingresso e pagamento</DashboardTitle>
