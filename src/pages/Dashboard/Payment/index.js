@@ -4,6 +4,8 @@ import UserContext from "../../../contexts/UserContext";
 import { NoContent } from "../../../components/NoContent";
 import { PaymentTopic } from "../../../components/PaymentTopic";
 import Button from "../../../components/Form/Button";
+import {  useHistory } from "react-router";
+import TicketInfoContext from "../../../contexts/TicketInfoContext";
 
 const textTopic1 = "Primeiro, escolha sua modalidade de ingresso";
 const textTopic2 = "Ótimo! Agora escolha sua modalidade de hospedagem";
@@ -23,7 +25,8 @@ const hotelModalities = [
 export default function Payment() {
   const { userData } = useContext(UserContext);
   const [paymentInfos, setPaymentInfos] = useState({});
-
+  const { setTicketInfo } = useContext(TicketInfoContext);
+  const history = useHistory();
   const updatePaymentInfos = (data) => {
     if (data.topic === "ticketType" && data.card.name === "Online") {
       delete paymentInfos.hotelModality;
@@ -31,6 +34,11 @@ export default function Payment() {
 
     paymentInfos[data.topic] = data.card;
     setPaymentInfos({ ...paymentInfos });
+  };
+
+  const nextPage = (data) => {
+    setTicketInfo(data);
+    history.push("/dashboard/details-payment");
   };
 
   return (
@@ -44,7 +52,7 @@ export default function Payment() {
             { (paymentInfos.ticketType?.name === "Online" || paymentInfos.hotelModality?.name) &&
               <>
                 <PaymentTopic text={textTopicEnd} paymentInfos={paymentInfos} updatePaymentInfos={updatePaymentInfos}/>
-                <Button>RESERVAR INGRESSO</Button>
+                <Button onClick={() => nextPage(paymentInfos)}>RESERVAR INGRESSO</Button>
               </>
             }
           </>
