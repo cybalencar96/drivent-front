@@ -10,7 +10,7 @@ export default function Hotel() {
 
   useEffect(() => {
     hotel.getHotels()
-      .then(response => {console.log(response.data); setHotelsData(response.data);})
+      .then(response => setHotelsData(response.data))
       .catch(() => alert("Erro"));
   }, []);
 
