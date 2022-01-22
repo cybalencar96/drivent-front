@@ -19,7 +19,7 @@ export const DashboardTopicTitle = styled.h1`
   color: #8e8e8e;
   font-size: 20px;
   line-height: 23px;
-  margin: 10px 0 !important;
+  margin: 30px 0 !important;
 `;
 
 export const DashboardTitle = styled.h1`
@@ -39,6 +39,9 @@ export const PriceTotal = styled.p`
 `;
 
 export const CreditCardContainer = styled.div`
+    /* background-color: blue; */
+    position: relative;
+    width: 90%;
     display: flex;
 `;
 

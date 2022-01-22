@@ -9,8 +9,8 @@ import TicketInfoContext from "../../../contexts/TicketInfoContext";
 
 const textTopic1 = "Primeiro, escolha sua modalidade de ingresso";
 const textTopic2 = "Ótimo! Agora escolha sua modalidade de hospedagem";
-const textTopicEnd = "Fechado! O total ficou em R$ 600. Agora é só confirmar:";
 const textNoEnroll = "Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso";
+const textTopicEnd = "Fechado! O total ficou em R$ 600. Agora é só confirmar:";
 
 const tickets = [
   { key: 0, name: "Presencial", price: 250 },
@@ -38,7 +38,7 @@ export default function Payment() {
 
   const nextPage = (data) => {
     setTicketInfo(data);
-    history.push("/dashboard/details-payment");
+    history.push("/dashboard/payment/details");
   };
 
   return (
