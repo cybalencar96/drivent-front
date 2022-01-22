@@ -57,10 +57,10 @@ export default function PersonalInformationForm() {
       };
 
       enrollment.save(newData).then(() => {
-        toast("Salvo com sucesso!");
         userData.user.enrolled = true;
 
         setUserData({ ...userData });
+        toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {

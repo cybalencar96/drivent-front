@@ -13,7 +13,7 @@ export function PaymentCard({ title, price, selected = false, ...props }) {
 const Container = styled.div`
     width: 145px;
     height: 145px;
-
+    margin-top: 10px;
     border-radius: 20px;
     border: 1px solid ${props => props.selected ? styles.paymentCard.selected.background : styles.paymentCard.borderColor};
     background-color: ${props => props.selected && styles.paymentCard.selected.background};

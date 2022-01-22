@@ -6,7 +6,7 @@ const DashboardTopicTitle = styled(Typography)`
   color: #8e8e8e;
   font-size: 20px;
   line-height: 23px;
-  margin: 10px 0 !important;
+  margin: 10px 0;
 `;
 
 export { DashboardTopicTitle };
