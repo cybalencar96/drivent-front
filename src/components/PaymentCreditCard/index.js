@@ -112,9 +112,7 @@ const ContainerFormTwoInputs = styled.div`
   width: 100%;
 `;
 
-const FormCreditCard = styled.form`
-    
-`;
+const FormCreditCard = styled.form``;
 
 const InputCreditCard = styled.input`
   height: 50px;
@@ -122,4 +120,5 @@ const InputCreditCard = styled.input`
   border-radius: 5px;
   padding-left: 10px;
   color:#BABBBB;
+  border: solid 1px #C9C9C9;
 `;

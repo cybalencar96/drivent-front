@@ -14,7 +14,7 @@ export default function DetailsPayment() {
   const [canPay, setCanPay] = useState(false);
 
   const api = useApi();
-  
+
   function submit() {
     let type;
     if (ticketInfo.ticketType.name === "Presencial" && ticketInfo.hotelModality.name === "Com Hotel") {
@@ -41,10 +41,6 @@ export default function DetailsPayment() {
     });
   }
 
-  if (userData.paid) {
-    return; 
-  }
-
   return (
     <Container>
       <DashboardTitle>Ingresso e pagamento</DashboardTitle>
@@ -66,7 +62,16 @@ export default function DetailsPayment() {
   );
 }
 
-const ButtonRelative = styled(Button)`
+const ButtonRelative = styled.button`
     position: absolute;
-    bottom: 45px;
+    font-weight: 500;
+    height: 37.7px;
+    width: 182px;
+    border-radius: 4px;
+    bottom: 10px;
+    background-color: #e0e0e0;
+    border: none;
+    color: #000000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 `;
