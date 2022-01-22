@@ -16,8 +16,8 @@ export default function HotelInfo() {
     ""
   ) : ticket.isPaid === false ? (
     <Container>
-      Você precisa ter confirmado pagamento antes
-      <br /> de fazer a escolha de hospedagem
+      <p>Você precisa ter confirmado pagamento antes</p>
+      <p>de fazer a escolha de hospedagem</p>
     </Container>
   ) : (
     <HotelChoice ticket={ticket} />
