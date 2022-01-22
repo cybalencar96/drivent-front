@@ -17,9 +17,7 @@ const Container = styled.div`
     line-height: 20px;
 `;
 
-const Text = styled.h1`
-    
-`;
+const Text = styled.h1``;
 
 const Strong = styled.h1`
     font-weight: bold;

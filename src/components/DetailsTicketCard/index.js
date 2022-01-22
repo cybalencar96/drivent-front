@@ -50,3 +50,17 @@ export const Container = styled.div`
         gap: 20px;
     }
 `;
+
+export const ButtonRelative = styled.button`
+    position: absolute;
+    font-weight: 500;
+    height: 37.7px;
+    width: 182px;
+    border-radius: 4px;
+    bottom: 10px;
+    background-color: #e0e0e0;
+    border: none;
+    color: #000000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+`;

@@ -1,13 +1,11 @@
 import { useContext, useState }  from "react";
 import TicketInfoContext from "../../../../contexts/TicketInfoContext";
-import { Container, DashboardTitle, DashboardTopicTitle, DetailsTicketCard, Details, PriceTotal, CreditCardContainer } from "../../../../components/DetailsTicketCard";
+import { Container, DashboardTitle, DashboardTopicTitle, DetailsTicketCard, Details, PriceTotal, CreditCardContainer, ButtonRelative } from "../../../../components/DetailsTicketCard";
 import PaymentForm from "../../../../components/PaymentCreditCard";
-import Button from "../../../../components/Form/Button";
 import useApi from "../../../../hooks/useApi";
 import UserContext from "../../../../contexts/UserContext";
 import { toast } from "react-toastify";
 import { ConfirmPayment } from "../../../../components/ConfirmPayment";
-import styled from "styled-components";
 export default function DetailsPayment() {
   const { userData, setUserData } = useContext(UserContext);
   const { ticketInfo } = useContext(TicketInfoContext);
@@ -61,17 +59,3 @@ export default function DetailsPayment() {
     </Container>
   );
 }
-
-const ButtonRelative = styled.button`
-    position: absolute;
-    font-weight: 500;
-    height: 37.7px;
-    width: 182px;
-    border-radius: 4px;
-    bottom: 10px;
-    background-color: #e0e0e0;
-    border: none;
-    color: #000000;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-`;
