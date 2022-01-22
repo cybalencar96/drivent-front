@@ -56,11 +56,14 @@ img {
 }
 
 .info-title {
-    font-size: 14px;
-    font-weight: bolder;
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 6px;
 }
 
 .info {
     font-size: 12px;
+    margin-bottom: 10px
 }
 `;
