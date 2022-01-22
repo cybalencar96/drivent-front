@@ -49,6 +49,7 @@ img {
     width: 100%;
     height: 110px;
     border-radius: 5px;
+    margin-bottom: 15px;
 }
 
 .hotel-name {

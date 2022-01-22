@@ -16,7 +16,7 @@ export default function Hotel() {
 
   return (
     <HotelSectionContainer>
-      <h1>Escolha de hotel e quarto</h1>
+      <h1>Escolha de hotel e quarto:</h1>
       <h2>Primeiro, escolha seu hotel</h2>
 
       <div>{
@@ -35,18 +35,18 @@ export default function Hotel() {
 const HotelSectionContainer = styled.section`
 font-family: 'Roboto', sans-serif;
 
-h1 {
+>h1 {
     margin-bottom: 40px;
-    font-size: 20px;
+    font-size: 30px;
 }
 
-h2 {
+>h2 {
     color: #8E8E8E;
-    font-size: 14px;
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
-div {
+>div {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
