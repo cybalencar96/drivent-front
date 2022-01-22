@@ -39,7 +39,6 @@ export const PriceTotal = styled.p`
 `;
 
 export const CreditCardContainer = styled.div`
-    /* background-color: blue; */
     position: relative;
     width: 90%;
     display: flex;

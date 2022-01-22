@@ -10,7 +10,6 @@ import TicketInfoContext from "../../../contexts/TicketInfoContext";
 const textTopic1 = "Primeiro, escolha sua modalidade de ingresso";
 const textTopic2 = "Ótimo! Agora escolha sua modalidade de hospedagem";
 const textNoEnroll = "Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso";
-const textTopicEnd = "Fechado! O total ficou em R$ 600. Agora é só confirmar:";
 
 const tickets = [
   { key: 0, name: "Presencial", price: 250 },
@@ -24,9 +23,13 @@ const hotelModalities = [
 
 export default function Payment() {
   const { userData } = useContext(UserContext);
-  const [paymentInfos, setPaymentInfos] = useState({});
   const { setTicketInfo } = useContext(TicketInfoContext);
+  const [paymentInfos, setPaymentInfos] = useState({});
+
   const history = useHistory();
+
+  const textTopicEnd = `Fechado! O total ficou em R$ ${paymentInfos?.hotelModality === undefined ? paymentInfos?.ticketType?.price :  paymentInfos?.hotelModality?.price + paymentInfos?.ticketType?.price}. Agora é só confirmar:`;
+
   const updatePaymentInfos = (data) => {
     if (data.topic === "ticketType" && data.card.name === "Online") {
       delete paymentInfos.hotelModality;

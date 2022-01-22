@@ -5,7 +5,6 @@ import PaymentForm from "../../../../components/PaymentCreditCard";
 import Button from "../../../../components/Form/Button";
 import useApi from "../../../../hooks/useApi";
 import UserContext from "../../../../contexts/UserContext";
-import {  useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { ConfirmPayment } from "../../../../components/ConfirmPayment";
 import styled from "styled-components";
@@ -15,7 +14,7 @@ export default function DetailsPayment() {
   const [canPay, setCanPay] = useState(false);
 
   const api = useApi();
-  const history = useHistory();
+  
   function submit() {
     let type;
     if (ticketInfo.ticketType.name === "Presencial" && ticketInfo.hotelModality.name === "Com Hotel") {
@@ -27,7 +26,7 @@ export default function DetailsPayment() {
     else {
       type = 3;
     }
-    console.log(ticketInfo);
+
     api.Payment.pay({
       body: {
         user: userData.user.id, type
@@ -37,11 +36,8 @@ export default function DetailsPayment() {
       setCanPay(false);
       userData.user.paid = true;
       setUserData({ ...userData });
-
-      // history.push("/payment/confirmation");
     }).catch(error => {
       toast("Já pagou né safado");
-      console.log(error);
     });
   }
 
