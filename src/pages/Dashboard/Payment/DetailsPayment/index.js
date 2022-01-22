@@ -39,18 +39,33 @@ export default function DetailsPayment() {
     });
   }
 
-  if (userData.user?.paid?.type) {
-    setTicketInfo({
-      hotelModality: {
-        name: userData.user.paid.type.name.split("+")[1],
-        price: Math.floor(userData.user.paid.type.hotelPrice)
-      },
-      ticketType: {
-        name: userData.user.paid.type.name.split("+")[0],
-        price: Math.floor(userData.user.paid.type.price)
-      }
-    });
-  }
+  useEffect(() => {
+    if (userData.user?.paid?.type) {
+      setTicketInfo({
+        hotelModality: {
+          name: userData.user.paid.type.name.split("+")[1],
+          price: Math.floor(userData.user.paid.type.hotelPrice)
+        },
+        ticketType: {
+          name: userData.user.paid.type.name.split("+")[0],
+          price: Math.floor(userData.user.paid.type.price)
+        }
+      });
+    }
+  // }
+  }, [userData]);
+  // if (userData.user?.paid?.type) {
+  //   setTicketInfo({
+  //     hotelModality: {
+  //       name: userData.user.paid.type.name.split("+")[1],
+  //       price: Math.floor(userData.user.paid.type.hotelPrice)
+  //     },
+  //     ticketType: {
+  //       name: userData.user.paid.type.name.split("+")[0],
+  //       price: Math.floor(userData.user.paid.type.price)
+  //     }
+  //   });
+  // }
 
   return (
     <Container>

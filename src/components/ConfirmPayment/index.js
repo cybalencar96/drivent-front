@@ -5,7 +5,7 @@ export function ConfirmPayment() {
   return (
     <Container>
       <img src={check} alt='check-mark' />
-      <Text><Strong>Pagamento confirmado!</Strong> Prossiga para escolha de hospedagem e atividades</Text>
+      <div><Strong>Pagamento confirmado!</Strong>Prossiga para escolha de hospedagem e atividades</div>
     </Container>
   );
 }
@@ -15,10 +15,10 @@ const Container = styled.div`
     align-items: center;
     color:#454545;
     line-height: 20px;
-`;
 
-const Text = styled.h1``;
+`;
 
 const Strong = styled.h1`
-    font-weight: bold;
+  font-weight: bold;
 `;
+

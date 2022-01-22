@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DashboardTitle } from "../../../components/DashboardTitle";
 import UserContext from "../../../contexts/UserContext";
 import { NoContent } from "../../../components/NoContent";
@@ -43,19 +43,23 @@ export default function Payment() {
     setTicketInfo(data);
     history.push("/dashboard/payment/details");
   };
-  if (userData.user?.paid?.type) {
-    setTicketInfo({
-      hotelModality: {
-        name: userData.user.paid.type.name.split("+")[1],
-        price: Math.floor(userData.user.paid.type.hotelPrice)
-      },
-      ticketType: {
-        name: userData.user.paid.type.name.split("+")[0],
-        price: Math.floor(userData.user.paid.type.price)
-      }
-    });
+
+  useEffect(() => {
+    if (userData.user?.paid?.type) {
+      setTicketInfo({
+        hotelModality: {
+          name: userData.user.paid.type.name.split("+")[1],
+          price: Math.floor(userData.user.paid.type.hotelPrice)
+        },
+        ticketType: {
+          name: userData.user.paid.type.name.split("+")[0],
+          price: Math.floor(userData.user.paid.type.price)
+        }
+      });
+    }
     history.push("/dashboard/payment/details");
-  }
+  // }
+  }, [userData]);
 
   return (
     <>
