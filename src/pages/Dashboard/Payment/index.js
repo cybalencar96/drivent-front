@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DashboardTitle } from "../../../components/DashboardTitle";
 import UserContext from "../../../contexts/UserContext";
 import { NoContent } from "../../../components/NoContent";
@@ -26,9 +26,13 @@ const hotelModalities = [
 
 export default function Payment() {
   const { userData } = useContext(UserContext);
-  const [paymentInfos, setPaymentInfos] = useState({});
   const { setTicketInfo } = useContext(TicketInfoContext);
+  const [paymentInfos, setPaymentInfos] = useState({});
+
   const history = useHistory();
+
+  text.topicEnd = `Fechado! O total ficou em R$ ${paymentInfos?.hotelModality === undefined ? paymentInfos?.ticketType?.price :  paymentInfos?.hotelModality?.price + paymentInfos?.ticketType?.price}. Agora é só confirmar:`;
+
   const updatePaymentInfos = (data) => {
     if (data.topic === "ticketType" && data.card.name === "Online") {
       delete paymentInfos.hotelModality;
@@ -40,8 +44,24 @@ export default function Payment() {
 
   const nextPage = (data) => {
     setTicketInfo(data);
-    history.push("/dashboard/details-payment");
+    history.push("/dashboard/payment/details");
   };
+
+  useEffect(() => {
+    if (userData.user?.paid?.type) {
+      setTicketInfo({
+        hotelModality: {
+          name: userData.user.paid.type.name.split("+")[1],
+          price: Math.floor(userData.user.paid.type.hotelPrice)
+        },
+        ticketType: {
+          name: userData.user.paid.type.name.split("+")[0],
+          price: Math.floor(userData.user.paid.type.price)
+        }
+      });
+      history.push("/dashboard/payment/details");
+    }
+  }, [userData]);
 
   return (
     <>

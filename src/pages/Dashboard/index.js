@@ -36,7 +36,7 @@ export default function Dashboard() {
             <Payment />
           </Route>
 
-          <Route path={`${match.path}/details-payment`} exact>
+          <Route path={`${match.path}/payment/details`} exact>
             <DetailsPayment />
           </Route>
 

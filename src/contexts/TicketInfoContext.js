@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { createContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const TicketInfoContext = createContext();
