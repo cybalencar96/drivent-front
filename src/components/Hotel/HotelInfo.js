@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import useApi from "../../hooks/useApi";
+import Container from "./container";
+import HotelChoice from "./HotelChoice";
 
 export default function HotelInfo() {
   const [ticket, setTicket] = useState(null);
@@ -19,18 +20,6 @@ export default function HotelInfo() {
       <br /> de fazer a escolha de hospedagem
     </Container>
   ) : (
-    "Em breve"
+    <HotelChoice ticket={ticket} />
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 20px;
-  line-height: 23px;
-  color: #8e8e8e;
-`;
