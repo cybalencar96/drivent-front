@@ -11,10 +11,6 @@ export default function DetailsPayment() {
   const { ticketInfo, setTicketInfo } = useContext(TicketInfoContext);
   const [canPay, setCanPay] = useState(false);
 
-  useEffect(() => {
-    console.log(userData);
-    console.log(ticketInfo);
-  }, []);
   const api = useApi();
 
   function submit() {
@@ -36,14 +32,14 @@ export default function DetailsPayment() {
     }).then(response => {
       toast("Sucesso ao pagar");
       setCanPay(false);
-      userData.user.paid = true;
+      userData.user.paid = response.data;
       setUserData({ ...userData });
     }).catch(error => {
       toast("Já pagou né safado");
     });
   }
 
-  if (userData.user.paid) {
+  if (userData.user?.paid?.type) {
     setTicketInfo({
       hotelModality: {
         name: userData.user.paid.type.name.split("+")[1],

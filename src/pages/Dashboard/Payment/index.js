@@ -43,7 +43,7 @@ export default function Payment() {
     setTicketInfo(data);
     history.push("/dashboard/payment/details");
   };
-  if (userData.user.paid) {
+  if (userData.user?.paid?.type) {
     setTicketInfo({
       hotelModality: {
         name: userData.user.paid.type.name.split("+")[1],
