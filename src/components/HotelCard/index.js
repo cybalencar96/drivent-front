@@ -1,12 +1,15 @@
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
 import * as helper from "./helpers";
 
 export default function HotelCard(props) {
   const { hotel } = useApi();
+  const { userData } = useContext(UserContext);
   const [roomsData, setRoomsData] = useState([]);
-  const [availableRooms, setAvailableRooms] = useState([]);
+  const [availableRooms, setAvailableRooms] = useState(null);
 
   useEffect(() => {
     hotel
@@ -16,9 +19,9 @@ export default function HotelCard(props) {
 
     hotel
       .getAvailableRooms(props.hotelId)
-      .then((response) => setAvailableRooms(response.data))
+      .then((response) => setAvailableRooms(response.data.availableRooms))
       .catch(() => alert("Erro"));
-  }, []);
+  }, [userData.user.reservation]);
 
   function selectHotel() {
     const { index, selectedHotel, setSelectedHotel } = props;
@@ -44,7 +47,7 @@ export default function HotelCard(props) {
       </p>
 
       <h2 className="info-title">Vagas Disponíveis:</h2>
-      <p className="info">{availableRooms.length}</p>
+      <p className="info">{availableRooms}</p>
     </CardContainer>
   );
 }
@@ -62,6 +65,12 @@ const CardContainer = styled.div`
     selectedHotel === index ? "#ffeed2" : "#f1f1f1"};
   margin-right: 10px;
   cursor: pointer;
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    line-height: 23px;
+  }
 
   img {
     width: 100%;
