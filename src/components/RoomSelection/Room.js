@@ -1,15 +1,20 @@
 import styled from "styled-components";
 import person from "../../assets/images/person.png";
-import range from "./helpers";
+import filledPerson from "../../assets/images/filledPerson.png";
+import beds from "./helpers";
 
 export default function Room({ number, totalBeds, occupiedBeds }) {
   return (
     <Container>
       <span>{number}</span>
       <PeopleContainer>
-        {range(totalBeds).map((_bed, i) => (
-          <img src={person} alt="" key={i} />
-        ))}
+        {beds(totalBeds, occupiedBeds).map((bed, i) =>
+          bed === "free" ? (
+            <img src={person} alt="" key={i} />
+          ) : (
+            <img src={filledPerson} alt="" key={i} />
+          )
+        )}
       </PeopleContainer>
     </Container>
   );

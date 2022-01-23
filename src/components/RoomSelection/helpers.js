@@ -1,7 +1,10 @@
-export default function range(num) {
-  const arr = [];
-  for (let i = 0; i < num; i++) {
-    arr.push(i);
+export default function beds(totalBeds, occupiedBeds) {
+  const beds = [];
+  for (let i = 0; i < totalBeds - occupiedBeds; i++) {
+    beds.push("free");
   }
-  return arr;
+  for (let i = 0; i < occupiedBeds; i++) {
+    beds.push("occupied");
+  }
+  return beds;
 }

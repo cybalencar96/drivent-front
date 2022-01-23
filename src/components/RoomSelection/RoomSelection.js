@@ -11,7 +11,7 @@ export default function RoomSelection({ hotelData }) {
   useEffect(() => {
     const roomsPromise = api.hotel.getRoomDetails(hotelData.id);
     roomsPromise.then((res) => setRooms(res.data));
-  }, []);
+  }, [hotelData.id]);
 
   return (
     <RoomSelectionContainer>
