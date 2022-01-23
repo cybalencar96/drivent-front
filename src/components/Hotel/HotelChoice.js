@@ -7,6 +7,7 @@ import HotelCard from "../HotelCard";
 export default function HotelChoice({ ticket }) {
   const { hotel } = useApi();
   const [hotelsData, setHotelsData] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState([false, false, false]);
 
   useEffect(() => {
     hotel
@@ -26,12 +27,15 @@ export default function HotelChoice({ ticket }) {
       <h2>Primeiro, escolha seu hotel</h2>
 
       <div>
-        {hotelsData?.map((hotel) => (
+        {hotelsData?.map((hotel, i) => (
           <HotelCard
             key={hotel.id}
             hotelId={hotel.id}
             imageUrl={hotel.imageUrl}
             hotelTitle={hotel.name}
+            selectedHotel={selectedHotel}
+            setSelectedHotel={setSelectedHotel}
+            index={i}
           />
         ))}
       </div>
