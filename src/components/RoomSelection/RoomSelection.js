@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
 import Room from "./Room";
 
@@ -10,6 +11,7 @@ export default function RoomSelection({
   setSelectedRoom,
 }) {
   const [rooms, setRooms] = useState(null);
+  const { userData, setUserData } = useContext(UserContext);
   const api = useApi();
 
   useEffect(() => {
@@ -17,27 +19,49 @@ export default function RoomSelection({
     roomsPromise.then((res) => setRooms(res.data));
   }, [hotelData.id]);
 
+  function submit() {
+    const reservationPromise = api.hotel.makeReservation(selectedRoom.roomId);
+    reservationPromise
+      .then((res) => {
+        userData.user.reservation = res.data;
+        setUserData({
+          ...userData,
+        });
+        toast("Reserva realizada");
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <RoomSelectionContainer>
-      <Title>Ótima pedida! Agora escolha seu quarto:</Title>
-      <RoomsContainer>
-        {rooms &&
-          rooms.map((room, i) => (
-            <Room
-              number={room.number}
-              totalBeds={room.totalBeds}
-              occupiedBeds={room.occupiedBeds}
-              selectedRoom={selectedRoom}
-              setSelectedRoom={setSelectedRoom}
-              hotelId={hotelData.id}
-              key={i}
-            />
-          ))}
-      </RoomsContainer>
-      {selectedRoom ? (
-        <ReservationButton>RESERVAR QUARTO</ReservationButton>
+      {userData.user.reservation ? (
+        "Já pediu"
       ) : (
-        ""
+        <>
+          <Title>Ótima pedida! Agora escolha seu quarto:</Title>
+          <RoomsContainer>
+            {rooms &&
+              rooms.map((room, i) => (
+                <Room
+                  roomId={room.id}
+                  number={room.number}
+                  totalBeds={room.totalBeds}
+                  occupiedBeds={room.occupiedBeds}
+                  selectedRoom={selectedRoom}
+                  setSelectedRoom={setSelectedRoom}
+                  hotelId={hotelData.id}
+                  key={i}
+                />
+              ))}
+          </RoomsContainer>
+          {selectedRoom ? (
+            <ReservationButton onClick={submit}>
+              RESERVAR QUARTO
+            </ReservationButton>
+          ) : (
+            ""
+          )}
+        </>
       )}
     </RoomSelectionContainer>
   );

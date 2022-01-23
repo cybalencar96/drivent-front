@@ -2,7 +2,7 @@ import { ReactComponent as Person } from "../../assets/images/person.svg";
 import { ReactComponent as SelectedPerson } from "../../assets/images/selectedPerson.svg";
 
 export default function ClickablePerson({
-  number,
+  roomId,
   selectedRoom,
   setSelectedRoom,
   hotelId,
@@ -10,16 +10,16 @@ export default function ClickablePerson({
 }) {
   function isThisSelected() {
     return (
-      selectedRoom?.number === number &&
       selectedRoom?.hotelId === hotelId &&
-      selectedRoom?.bed === bed
+      selectedRoom?.bed === bed &&
+      selectedRoom?.roomId === roomId
     );
   }
   function handleClick() {
     if (isThisSelected()) {
       setSelectedRoom(null);
     } else {
-      setSelectedRoom({ number, hotelId, bed });
+      setSelectedRoom({ roomId, hotelId, bed });
     }
   }
 

@@ -5,6 +5,7 @@ import beds from "./helpers";
 import ClickablePerson from "./ClickablePerson";
 
 export default function Room({
+  roomId,
   number,
   totalBeds,
   occupiedBeds,
@@ -16,7 +17,7 @@ export default function Room({
     <Container
       fullRoom={totalBeds === occupiedBeds}
       isThisRoomSelected={
-        selectedRoom?.hotelId === hotelId && selectedRoom?.number === number
+        selectedRoom?.hotelId === hotelId && selectedRoom?.roomId === roomId
       }
     >
       <span>{number}</span>
@@ -26,7 +27,7 @@ export default function Room({
             return (
               <ClickablePerson
                 key={i}
-                number={number}
+                roomId={roomId}
                 selectedRoom={selectedRoom}
                 setSelectedRoom={setSelectedRoom}
                 hotelId={hotelId}
