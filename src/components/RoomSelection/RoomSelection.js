@@ -6,6 +6,8 @@ import Room from "./Room";
 
 export default function RoomSelection({ hotelData }) {
   const [rooms, setRooms] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  console.log(selectedRoom);
   const api = useApi();
 
   useEffect(() => {
@@ -23,6 +25,9 @@ export default function RoomSelection({ hotelData }) {
               number={room.number}
               totalBeds={room.totalBeds}
               occupiedBeds={room.occupiedBeds}
+              selectedRoom={selectedRoom}
+              setSelectedRoom={setSelectedRoom}
+              hotelId={hotelData.id}
               key={i}
             />
           ))}
