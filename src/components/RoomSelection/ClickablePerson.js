@@ -24,8 +24,8 @@ export default function ClickablePerson({
   }
 
   return isThisSelected() ? (
-    <SelectedPerson onClick={handleClick} />
+    <SelectedPerson onClick={handleClick} style={{ cursor: "pointer" }} />
   ) : (
-    <Person onClick={handleClick} />
+    <Person onClick={handleClick} style={{ cursor: "pointer" }} />
   );
 }

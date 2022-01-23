@@ -8,7 +8,8 @@ import RoomSelection from "../RoomSelection/RoomSelection";
 export default function HotelChoice({ ticket }) {
   const { hotel } = useApi();
   const [hotelsData, setHotelsData] = useState([]);
-  const [selectedHotel, setSelectedHotel] = useState([false, false, false]);
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
   useEffect(() => {
     hotel
@@ -40,8 +41,12 @@ export default function HotelChoice({ ticket }) {
           />
         ))}
       </div>
-      {selectedHotel.some((hotel) => hotel === true) ? (
-        <RoomSelection hotelData={hotelsData[selectedHotel.indexOf(true)]} />
+      {selectedHotel !== null ? (
+        <RoomSelection
+          hotelData={hotelsData[selectedHotel]}
+          selectedRoom={selectedRoom}
+          setSelectedRoom={setSelectedRoom}
+        />
       ) : (
         ""
       )}

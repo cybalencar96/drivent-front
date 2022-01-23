@@ -20,21 +20,18 @@ export default function HotelCard(props) {
       .catch(() => alert("Erro"));
   }, []);
 
-  function selectHotel(index) {
-    const clickedHotel = props.selectedHotel[index];
-
-    const newSelectedHotel = [false, false, false];
-    if (clickedHotel) {
-      props.setSelectedHotel(newSelectedHotel);
-      return;
+  function selectHotel() {
+    const { index, selectedHotel, setSelectedHotel } = props;
+    if (index === selectedHotel) {
+      setSelectedHotel(null);
+    } else {
+      setSelectedHotel(index);
     }
-    newSelectedHotel[index] = true;
-    props.setSelectedHotel(newSelectedHotel);
   }
 
   return (
     <CardContainer
-      onClick={() => selectHotel(props.index)}
+      onClick={selectHotel}
       selectedHotel={props.selectedHotel}
       index={props.index}
     >
@@ -61,8 +58,8 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: ${(props) =>
-    props.selectedHotel[props.index] ? "#ffeed2" : "#f1f1f1"};
+  background-color: ${({ selectedHotel, index }) =>
+    selectedHotel === index ? "#ffeed2" : "#f1f1f1"};
   margin-right: 10px;
   cursor: pointer;
 
