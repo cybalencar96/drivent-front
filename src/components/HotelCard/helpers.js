@@ -13,3 +13,19 @@ export function availableTypes(roomsData) {
   }
   return returnalString;
 }
+
+export function calculateAvailableVacancies(availableRooms) {
+  const dictionary = {
+    Single: 1,
+    Double: 2,
+    Triple: 3,
+  };
+
+  let counter = 0;
+
+  for(const room of availableRooms) {
+    counter += dictionary[room.type.name];
+  }
+
+  return counter;
+}

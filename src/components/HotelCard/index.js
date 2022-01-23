@@ -47,7 +47,7 @@ export default function HotelCard(props) {
       </p>
 
       <h2 className="info-title">Vagas Disponíveis:</h2>
-      <p className="info">{availableRooms.length}</p>
+      <p className="info">{helper.calculateAvailableVacancies(availableRooms)}</p>
     </CardContainer>
   );
 }
@@ -66,7 +66,7 @@ const CardContainer = styled.div`
   margin-right: 10px;
   cursor: pointer;
 
-  img {
+  >img {
     width: 100%;
     height: 110px;
     border-radius: 5px;
