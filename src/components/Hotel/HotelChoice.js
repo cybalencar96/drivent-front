@@ -3,6 +3,7 @@ import useApi from "../../hooks/useApi";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import HotelCard from "../HotelCard";
+import RoomSelection from "../RoomSelection/RoomSelection";
 
 export default function HotelChoice({ ticket }) {
   const { hotel } = useApi();
@@ -39,6 +40,11 @@ export default function HotelChoice({ ticket }) {
           />
         ))}
       </div>
+      {selectedHotel.some((hotel) => hotel === true) ? (
+        <RoomSelection hotelData={hotelsData[selectedHotel.indexOf(true)]} />
+      ) : (
+        ""
+      )}
     </HotelSectionContainer>
   );
 }

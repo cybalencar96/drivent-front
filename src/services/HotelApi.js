@@ -12,4 +12,8 @@ export default class HotelApi {
   getAvailableRooms(hotelId) {
     return api.get(`/room/available/${hotelId}`);
   }
+
+  getRoomDetails(hotelId) {
+    return api.get(`/room/details/${hotelId}`);
+  }
 }
