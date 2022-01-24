@@ -25,7 +25,7 @@ export default function SignIn() {
   
   function submit(event) {
     event.preventDefault();
-    setLoadingSignIn(true);
+    setLoadingSignIn(true); 
 
     api.auth.signIn(email, password).then(response => {
       setUserData(response.data);
