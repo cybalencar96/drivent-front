@@ -35,7 +35,7 @@ export default function DetailsPayment() {
       userData.user.paid = response.data;
       setUserData({ ...userData });
     }).catch(error => {
-      toast("Já pagou né safado");
+      toast("Você já realizou o pagamento");
     });
   }
 
