@@ -47,7 +47,7 @@ export default function HotelCard(props) {
       </p>
 
       <h2 className="info-title">Vagas Disponíveis:</h2>
-      <p className="info">{helper.calculateAvailableVacancies(availableRooms)}</p>
+      <p className="info">{availableRooms}</p>
     </CardContainer>
   );
 }
