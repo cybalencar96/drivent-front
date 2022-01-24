@@ -1,12 +1,15 @@
+import { useContext } from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
 import * as helper from "./helpers";
 
 export default function HotelCard(props) {
   const { hotel } = useApi();
+  const { userData } = useContext(UserContext);
   const [roomsData, setRoomsData] = useState([]);
-  const [availableRooms, setAvailableRooms] = useState([]);
+  const [availableRooms, setAvailableRooms] = useState(null);
 
   useEffect(() => {
     hotel
@@ -16,25 +19,22 @@ export default function HotelCard(props) {
 
     hotel
       .getAvailableRooms(props.hotelId)
-      .then((response) => setAvailableRooms(response.data))
+      .then((response) => setAvailableRooms(response.data.availableRooms))
       .catch(() => alert("Erro"));
-  }, []);
+  }, [userData.user.reservation]);
 
-  function selectHotel(index) {
-    const clickedHotel = props.selectedHotel[index];
-
-    const newSelectedHotel = [false, false, false];
-    if (clickedHotel) {
-      props.setSelectedHotel(newSelectedHotel);
-      return;
+  function selectHotel() {
+    const { index, selectedHotel, setSelectedHotel } = props;
+    if (index === selectedHotel) {
+      setSelectedHotel(null);
+    } else {
+      setSelectedHotel(index);
     }
-    newSelectedHotel[index] = true;
-    props.setSelectedHotel(newSelectedHotel);
   }
 
   return (
     <CardContainer
-      onClick={() => selectHotel(props.index)}
+      onClick={selectHotel}
       selectedHotel={props.selectedHotel}
       index={props.index}
     >
@@ -61,12 +61,18 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: ${(props) =>
-    props.selectedHotel[props.index] ? "#ffeed2" : "#f1f1f1"};
+  background-color: ${({ selectedHotel, index }) =>
+    selectedHotel === index ? "#ffeed2" : "#f1f1f1"};
   margin-right: 10px;
   cursor: pointer;
 
-  >img {
+  h1 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    line-height: 23px;
+  }
+
+  img {
     width: 100%;
     height: 110px;
     border-radius: 5px;
