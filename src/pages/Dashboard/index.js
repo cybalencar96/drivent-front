@@ -17,11 +17,11 @@ import Payment from "./Payment";
 import Hotel from "./Hotel";
 import Activities from "./Activities";
 import Certificate from "./Certificate";
+import DetailsPayment from "./Payment/DetailsPayment";
 
 export default function Dashboard() {
   const { eventInfo } = useContext(EventInfoContext);
   const match = useRouteMatch();
-
   return (
     <DashboardLayout background={eventInfo.backgroundImage}>
       <NavigationBar />
@@ -34,6 +34,10 @@ export default function Dashboard() {
 
           <Route path={`${match.path}/payment`} exact>
             <Payment />
+          </Route>
+
+          <Route path={`${match.path}/payment/details`} exact>
+            <DetailsPayment />
           </Route>
 
           <Route path={`${match.path}/hotel`} exact>
