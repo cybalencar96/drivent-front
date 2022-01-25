@@ -25,7 +25,7 @@ export default function HotelCard(props) {
       .catch(() => alert("Erro"));
   }, [userData.user.reservation]);
 
-  function handleError(error) {
+  function handleError() {
     setImage(defaultImage);
   }
 
