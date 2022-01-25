@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
+import defaultImage from "../../assets/images/default-hotel.png";
 import * as helper from "./helpers";
 
 export default function HotelCard(props) {
@@ -10,6 +11,7 @@ export default function HotelCard(props) {
   const { userData } = useContext(UserContext);
   const [roomsData, setRoomsData] = useState([]);
   const [availableRooms, setAvailableRooms] = useState(null);
+  const [image, setImage] = useState(props.imageUrl);
 
   useEffect(() => {
     hotel
@@ -22,6 +24,10 @@ export default function HotelCard(props) {
       .then((response) => setAvailableRooms(response.data.availableRooms))
       .catch(() => alert("Erro"));
   }, [userData.user.reservation]);
+
+  function handleError(error) {
+    setImage(defaultImage);
+  }
 
   function selectHotel() {
     const { index, selectedHotel, setSelectedHotel } = props;
@@ -38,7 +44,7 @@ export default function HotelCard(props) {
       selectedHotel={props.selectedHotel}
       index={props.index}
     >
-      <img alt="" src={props.imageUrl} />
+      <img alt="" src={image} onError={handleError}/>
       <h1 className="hotel-name">{props.hotelTitle}</h1>
 
       <h2 className="info-title">Tipos de acomodação:</h2>
