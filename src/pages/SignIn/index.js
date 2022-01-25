@@ -26,14 +26,9 @@ export default function SignIn() {
   function submit(event) {
     event.preventDefault();
     setLoadingSignIn(true);
-    let receivedData;
 
     api.auth.signIn(email, password).then(response => {
-      receivedData = response.data;
-      api.hotel.getUserReservations(response.data.user.id, response.data.token)
-        .then(response => setUserData(prev => ({ ...prev, reservation: response.data[0], ...receivedData })))
-        /* eslint-disable-next-line no-console */
-        .catch(error => console.log(error));
+      setUserData(response.data);
     }).catch(error => {
       /* eslint-disable-next-line no-console */
       console.error(error);
