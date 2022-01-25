@@ -1,13 +1,6 @@
-import { useContext } from "react";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import UserContext from "../../contexts/UserContext";
-import useApi from "../../hooks/useApi";
 
 export default function SelectedRoomCard(props) {
-  const { hotel } = useApi();
-  const { userData } = useContext(UserContext);
-
   return (
     <CardContainer>
       <img alt="" src={props.imageUrl} />

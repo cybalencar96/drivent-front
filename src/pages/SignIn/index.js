@@ -40,8 +40,6 @@ export default function SignIn() {
       } else {
         toast("Não foi possível conectar ao servidor!");
       }
-    }).then(() => {
-      setLoadingSignIn(false);
     });
   } 
 
