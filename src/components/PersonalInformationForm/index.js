@@ -28,7 +28,9 @@ export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const { userData, setUserData } = useContext(UserContext);
-
+  const [erro, setErro] = useState("");
+  const [erroBirthday, setErroBirthday] = useState("");
+  const [erroCEP, setErroCEP] = useState("");
   const {
     handleSubmit,
     handleChange,
@@ -56,18 +58,34 @@ export default function PersonalInformationForm() {
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
 
+      if (erroCEP) {
+        return;
+      }
+
       enrollment.save(newData).then(() => {
         userData.user.enrolled = true;
 
         setUserData({ ...userData });
+        setErro("");
+        setErroBirthday("");
         toast("Salvo com sucesso!");
       }).catch((error) => {
+        console.log(error.response);
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {
-            toast(detail);
+            console.log(detail);
+            if (detail[0] === "C") {
+              setErro("CPF já está em uso ou um CPF inválido");
+            }
+            else if (detail[1] === "b") {
+              setErroBirthday("Insira uma data válida");
+            }
+            else {
+              toast(detail); 
+            }
           }
         } else {
-          toast("Não foi possível");
+          toast("CPF já cadastrado");
         }
         /* eslint-disable-next-line no-console */
         console.log(error);
@@ -131,6 +149,12 @@ export default function PersonalInformationForm() {
       setDynamicInputIsLoading(true);
       cep.getAddress(valueWithoutMask).then(({ data }) => {
         setDynamicInputIsLoading(false);
+        console.log(data);
+        if (data.erro) {
+          setErroCEP("Digite um CEP válido");
+          return;
+        }
+        setErroCEP("");
         setData({
           ...newDataValues,
           street: data.logradouro,
@@ -146,7 +170,7 @@ export default function PersonalInformationForm() {
     <>
       <DashboardTitle variant="h4">Suas Informações</DashboardTitle>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <FormWrapper onSubmit={handleSubmit}>
+        <FormWrapper onSubmit={(data) => handleSubmit(data, errors)}>
           <InputWrapper>
             <Input
               label="Nome Completo"
@@ -168,6 +192,7 @@ export default function PersonalInformationForm() {
               onChange={handleChange("cpf")}
             />
             {errors.cpf && <ErrorMsg>{errors.cpf}</ErrorMsg>}
+            {erro && <ErrorMsg>{erro}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <CustomDatePicker
@@ -184,6 +209,7 @@ export default function PersonalInformationForm() {
               }}
             />
             {errors.birthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
+            {erroBirthday && <ErrorMsg>{erroBirthday}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <Input
@@ -207,6 +233,8 @@ export default function PersonalInformationForm() {
               }}
             />
             {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}
+            {erroCEP && <ErrorMsg>{erroCEP}</ErrorMsg>}
+            
           </InputWrapper>
           <InputWrapper>
             <Select
