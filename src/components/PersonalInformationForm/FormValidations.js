@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-
 const validations = {
   name: {
     custom: {

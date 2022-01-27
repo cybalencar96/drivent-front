@@ -29,7 +29,7 @@ export default function RoomSelection({
         });
         toast("Reserva realizada");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }
 
   return (

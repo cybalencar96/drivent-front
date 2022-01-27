@@ -73,7 +73,6 @@ export default function PersonalInformationForm() {
         console.log(error.response);
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {
-            console.log(detail);
             if (detail[0] === "C") {
               setErro("CPF já está em uso ou um CPF inválido");
             }
