@@ -40,7 +40,7 @@ export default function RoomSelection({
 
   return (
     <RoomSelectionContainer>
-      {userData.user.reservation && !changeRoomMode? (
+      {userData.user.reservation.id && !changeRoomMode ? (
         "Já pediu"
       ) : (
         <>

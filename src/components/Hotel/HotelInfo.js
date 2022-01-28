@@ -31,7 +31,7 @@ export default function HotelInfo() {
               <p>Você precisa ter confirmado pagamento antes</p>
               <p>de fazer a escolha de hospedagem</p>
             </Container>
-            : !changeRoomMode && userData.user.reservation.amount
+            : !changeRoomMode && userData.user.reservation.id
               ? <SelectedRoomCard 
                 imageUrl={userData.user.reservation.room.hotel.imageUrl}
                 hotelTitle={userData.user.reservation.room.hotel.name}
@@ -42,7 +42,7 @@ export default function HotelInfo() {
               : <HotelChoice ticket={ticket} />
       }
       {
-        !changeRoomMode && userData.user.reservation.amount
+        !changeRoomMode && userData.user.reservation.id
           ? <ChangeButton onClick={() => setChangeRoomMode(true)}>Trocar de quarto</ChangeButton>
           : void(0)
         
