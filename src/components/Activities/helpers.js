@@ -29,3 +29,8 @@ export function getUnique(key, array) {
   const uniqueArr = new Set(keyValues);
   return [...uniqueArr];
 }
+
+export function getDurationInHours(startDateString, endDateString) {
+  const timestampDifference = (+new Date(endDateString)) - (+new Date(startDateString));
+  return parseInt(((timestampDifference / 1000) / 60) / 60);
+}

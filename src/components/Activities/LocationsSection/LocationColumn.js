@@ -1,13 +1,18 @@
 import styled from "styled-components";
+import EventCard from "../EventCard";
 
 export default function LocationColumn(props) {
-  const { location } = props;
+  const { location, activities } = props;
 
   return (
     <LocationColumnContainer>
       <h1>{location}</h1>
       <div>
-        "Renderizar os cards aqui"
+        {
+          activities
+            .filter(activity => activity.location.name === location)
+            .map(uniqueActivity => <EventCard key={uniqueActivity.id} vacancies={uniqueActivity.vacancies} uniqueActivity={uniqueActivity}/>)
+        }
       </div>
     </LocationColumnContainer>
   );

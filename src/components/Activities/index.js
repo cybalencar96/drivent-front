@@ -16,12 +16,15 @@ export default function Activities() {
     setClickedOnceAtLeast(true);
   }
 
+  function filterVeryfier(activity) {
+    const condition = (helper.formatDateToButtonPattern(activity.startDate) === filterCase);
+    return condition;
+  }
+
   useEffect(() => {
     UserApi
       .getAllEvents()
-      .then(response => {
-        setActivities(response.data);
-        console.log(response.data);})
+      .then(response => setActivities(response.data))
       .catch(e => console.log(e));
   }, []);
 
@@ -31,9 +34,13 @@ export default function Activities() {
       {
         helper
           .getUnique("startDate", activities)
-          .map(activity => <DateButton onClick={activity => filterSelectionHandler(activity)}>{helper.formatDateToButtonPattern(activity)}</DateButton>)
+          .map(activity => <DateButton key={activity} onClick={() => filterSelectionHandler(activity)} colorize={helper.formatDateToButtonPattern(activity) === filterCase}>{helper.formatDateToButtonPattern(activity)}</DateButton>)
       }
-      <LocationSection activities={activities}></LocationSection>
+      {
+        clickedOnceAtLeast
+          ? <LocationSection activities={activities.filter(activity => filterVeryfier(activity))} />
+          : void(0)
+      }
     </>
   );
 }
