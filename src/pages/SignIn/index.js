@@ -31,17 +31,15 @@ export default function SignIn() {
       setUserData(response.data);
     }).catch(error => {
       /* eslint-disable-next-line no-console */
-      console.error(error);
+      console.error(error.response);
       
-      if (error.response) {
+      if (error.response.data.details) {
         for (const detail of error.response.data.details) {
           toast(detail);
         }
       } else {
         toast("Não foi possível conectar ao servidor!");
       }
-    }).then(() => {
-      setLoadingSignIn(false);
     });
   } 
 
