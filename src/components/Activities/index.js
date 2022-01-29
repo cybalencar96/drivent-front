@@ -8,6 +8,13 @@ import * as helper from "./helpers";
 
 export default function Activities() {
   const [activities, setActivities] = useState([]);
+  const [filterCase, setFilterCase] = useState(null);
+  const [clickedOnceAtLeast, setClickedOnceAtLeast] = useState(false);
+
+  function filterSelectionHandler(activity) {
+    setFilterCase(helper.formatDateToButtonPattern(activity));
+    setClickedOnceAtLeast(true);
+  }
 
   useEffect(() => {
     UserApi
@@ -22,8 +29,11 @@ export default function Activities() {
     <>
       <Title>Escolha de atividades</Title>
       {
-        helper.getUnique("startDate", activities).map(activity => <DateButton>{helper.formatDateToButtonPattern(activity)}</DateButton>)
+        helper
+          .getUnique("startDate", activities)
+          .map(activity => <DateButton onClick={activity => filterSelectionHandler(activity)}>{helper.formatDateToButtonPattern(activity)}</DateButton>)
       }
+      <LocationSection activities={activities}></LocationSection>
     </>
   );
 }

@@ -14,20 +14,24 @@ export default function LocationColumn(props) {
 }
 
 const LocationColumnContainer = styled.section`
-    height: 160px;
+    height: 100%;
+    width: 100%;
 
     >h1 {
         margin-bottom: 8px;
         color: #7b7b7b;
         font-size: 14px;
+        width: 100%;
+        text-align: center;
     }
     
     >div {
-        border: 1px 0.5px 1px 0.5px;
+        border: 1px solid #d7d7d7;
         padding: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        height: 100%;
     };
 `;
