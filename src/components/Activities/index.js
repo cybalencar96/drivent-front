@@ -12,24 +12,24 @@ export default function Activities() {
   const [filterCase, setFilterCase] = useState(null);
   const [clickedOnceAtLeast, setClickedOnceAtLeast] = useState(false);
   const { userData } = useContext(UserContext);
-
+  
   function filterSelectionHandler(activity) {
-    setFilterCase(helper.formatDateToButtonPattern(activity));
+    setFilterCase(activity);
     setClickedOnceAtLeast(true);
   }
-
+    
   function filterVeryfier(activity) {
     const condition = (helper.formatDateToButtonPattern(activity.startDate) === filterCase);
     return condition;
   }
-
+    
   useEffect(() => {
     UserApi
       .getAllEvents()
       .then(response => setActivities(response.data))
       .catch(e => console.log(e));
   }, []);
-
+    
   return (
     <>
       <Title>Escolha de atividades</Title>
@@ -47,8 +47,8 @@ export default function Activities() {
         <>
           {
             helper
-              .getUnique("startDate", activities)
-              .map(activity => <DateButton key={activity} onClick={() => filterSelectionHandler(activity)} colorize={helper.formatDateToButtonPattern(activity) === filterCase}>{helper.formatDateToButtonPattern(activity)}</DateButton>)
+              .getUnique("startDate", activities.map(activity => ({ startDate: helper.formatDateToButtonPattern(activity.startDate) })))
+              .map(activity => <DateButton key={activity} onClick={() => filterSelectionHandler(activity)} colorize={activity === filterCase}>{activity}</DateButton>)
           }
           {
             clickedOnceAtLeast
