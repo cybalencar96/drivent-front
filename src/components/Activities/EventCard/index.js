@@ -6,7 +6,6 @@ import * as helper from "../helpers";
 export default function EventCard(props) {
   const { vacancies, uniqueActivity } = props;
   const duration = helper.getDurationInHours(uniqueActivity.startDate, uniqueActivity.endDate);
-  console.log(props);
   return (
     <EventCardContainer eventDuration={duration}>
       <LeftSection 
