@@ -18,13 +18,14 @@ import { CustomDatePicker } from "./CustomDatePicker";
 import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
-import FormValidations from "./FormValidations";
+import FormValidations, { validations } from "./FormValidations";
 import { DashboardTitle } from "../DashboardTitle";
 import UserContext from "../../contexts/UserContext";
 
 dayjs.extend(CustomParseFormat);
-
 export default function PersonalInformationForm() {
+  const [color, setColor] = useState("");
+  const [state, setState] = useState({ name: "" });
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const { userData, setUserData } = useContext(UserContext);
@@ -57,8 +58,7 @@ export default function PersonalInformationForm() {
         },
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
-
-      if (erroCEP) {
+      if (erroCEP || Object.values(errors).length) {
         return;
       }
 
@@ -70,7 +70,6 @@ export default function PersonalInformationForm() {
         setErroBirthday("");
         toast("Salvo com sucesso!");
       }).catch((error) => {
-        console.log(error.response);
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {
             if (detail[0] === "C") {
@@ -130,6 +129,12 @@ export default function PersonalInformationForm() {
     });
   }, []);
 
+  useEffect(() => {
+    if (Object.values(errors).length) {
+      setColor("switch");
+    }
+  }, [errors]);
+
   function isValidCep(cep) {
     return cep.length === 8;
   }
@@ -148,12 +153,17 @@ export default function PersonalInformationForm() {
       setDynamicInputIsLoading(true);
       cep.getAddress(valueWithoutMask).then(({ data }) => {
         setDynamicInputIsLoading(false);
-        console.log(data);
         if (data.erro) {
           setErroCEP("Digite um CEP válido");
           return;
         }
         setErroCEP("");
+        delete errors["cep"];
+        delete errors["street"];
+        delete errors["city"];
+        delete errors["neighborhood"];
+        delete errors["state"];
+        setColor("");
         setData({
           ...newDataValues,
           street: data.logradouro,
@@ -165,6 +175,22 @@ export default function PersonalInformationForm() {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (validations[name].isValid(value) === true) {
+      delete errors[name];
+    } else {
+      errors[name] = validations[name].isValid(value).message;
+    }
+  
+    if (!Object.values(errors).length) {
+      setColor("");
+    } else {
+      setColor("switch");
+    }
+    setState({ [name]: value });
+  };
   return (
     <>
       <DashboardTitle variant="h4">Suas Informações</DashboardTitle>
@@ -176,7 +202,11 @@ export default function PersonalInformationForm() {
               name="name"
               type="text"
               value={data.name || ""}
-              onChange={handleChange("name")}
+              onChange={(e) => {
+                handleChange("name")(e);
+                handleInputChange(e);
+              }
+              }
             />
             {errors.name && <ErrorMsg>{errors.name}</ErrorMsg>}
           </InputWrapper>
@@ -188,10 +218,14 @@ export default function PersonalInformationForm() {
               maxLength="14"
               mask="999.999.999-99"
               value={data.cpf || ""}
-              onChange={handleChange("cpf")}
+              onChange={(e) => {
+                handleChange("cpf")(e);
+                handleInputChange(e);
+              }
+              }
             />
-            {errors.cpf && <ErrorMsg>{errors.cpf}</ErrorMsg>}
-            {erro && <ErrorMsg>{erro}</ErrorMsg>}
+            {errors.cpf && !erro && <ErrorMsg>{errors.cpf}</ErrorMsg>}
+            {!errors.cpf && erro && <ErrorMsg>{erro}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <CustomDatePicker
@@ -207,8 +241,8 @@ export default function PersonalInformationForm() {
                 customHandleChange("birthday", (d) => d && dayjs(d).format("DD-MM-YYYY"))(date);
               }}
             />
-            {errors.birthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
-            {erroBirthday && <ErrorMsg>{erroBirthday}</ErrorMsg>}
+            {errors.birthday && !erroBirthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
+            {!errors.birthday && erroBirthday && <ErrorMsg>{erroBirthday}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <Input
@@ -216,7 +250,10 @@ export default function PersonalInformationForm() {
               mask={data.phone.length < 15 ? "(99) 9999-99999" : "(99) 99999-9999"} // o 9 extra no primeiro é para permitir digitar um número a mais e então passar pra outra máscara - gambiarra? temos
               name="phone"
               value={data.phone || ""}
-              onChange={handleChange("phone")}
+              onChange={(e) => {
+                handleChange("phone")(e);
+                handleInputChange(e);
+              }}
             />
             {errors.phone && <ErrorMsg>{errors.phone}</ErrorMsg>}
           </InputWrapper>
@@ -232,7 +269,7 @@ export default function PersonalInformationForm() {
               }}
             />
             {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}
-            {erroCEP && <ErrorMsg>{erroCEP}</ErrorMsg>}
+            {!errors.cep  && erroCEP && <ErrorMsg>{erroCEP}</ErrorMsg>}
             
           </InputWrapper>
           <InputWrapper>
@@ -241,7 +278,11 @@ export default function PersonalInformationForm() {
               name="state"
               id="state"
               value={data.state || ""}
-              onChange={handleChange("state")}
+              onChange={(e) => {
+                handleChange("state")(e);
+                handleInputChange(e);
+              }
+              }
             >
               <MenuItem value="">
                 <em>None</em>
@@ -260,7 +301,11 @@ export default function PersonalInformationForm() {
               label="Cidade"
               name="city"
               value={data.city || ""}
-              onChange={handleChange("city")}
+              onChange={(e) => {
+                handleChange("city")(e);
+                handleInputChange(e);
+              }
+              }
               disabled={dynamicInputIsLoading}
             />
             {errors.city && <ErrorMsg>{errors.city}</ErrorMsg>}
@@ -270,7 +315,11 @@ export default function PersonalInformationForm() {
               label="Rua"
               name="street"
               value={data.street || ""}
-              onChange={handleChange("street")}
+              onChange={(e) => {
+                handleChange("street")(e);
+                handleInputChange(e);
+              }
+              }
               disabled={dynamicInputIsLoading}
             />
             {errors.street && <ErrorMsg>{errors.street}</ErrorMsg>}
@@ -281,7 +330,11 @@ export default function PersonalInformationForm() {
               label="Número"
               name="number"
               value={data.number || ""}
-              onChange={handleChange("number")}
+              onChange={(e) => {
+                handleChange("number")(e);
+                handleInputChange(e);
+              }
+              }
             />
             {errors.number && <ErrorMsg>{errors.number}</ErrorMsg>}
           </InputWrapper>
@@ -290,7 +343,11 @@ export default function PersonalInformationForm() {
               label="Bairro"
               name="neighborhood"
               value={data.neighborhood || ""}
-              onChange={handleChange("neighborhood")}
+              onChange={(e) => {
+                handleChange("neighborhood")(e);
+                handleInputChange(e);
+              }
+              }
               disabled={dynamicInputIsLoading}
             />
             {errors.neighborhood && <ErrorMsg>{errors.neighborhood}</ErrorMsg>}
@@ -300,12 +357,16 @@ export default function PersonalInformationForm() {
               label="Complemento"
               name="addressDetail"
               value={data.addressDetail || ""}
-              onChange={handleChange("addressDetail")}
+              onChange={(e) => {
+                handleChange("addressDetail")(e);
+                handleInputChange(e);
+              }
+              }
             />
           </InputWrapper>
           
           <SubmitContainer>
-            <Button type="submit" disabled={dynamicInputIsLoading}>
+            <Button color={color} type="submit" disabled={dynamicInputIsLoading}>
               Salvar
             </Button>
           </SubmitContainer>
