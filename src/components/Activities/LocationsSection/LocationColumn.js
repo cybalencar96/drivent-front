@@ -3,7 +3,7 @@ import EventCard from "../EventCard";
 
 export default function LocationColumn(props) {
   const { location, activities } = props;
-
+  console.log(location);
   return (
     <LocationColumnContainer>
       <h1>{location}</h1>

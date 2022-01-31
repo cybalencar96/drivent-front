@@ -9,7 +9,7 @@ export default function LeftSection(props) {
 
   return (
     <LeftSectionContainer>
-      <h3>{eventName}</h3>
+      <h3>{uniqueActivity.name}</h3>
       <h4>{`${helper.formatHour(uniqueActivity.startDate)} - ${helper.formatHour(uniqueActivity.endDate)}`}</h4>
     </LeftSectionContainer>
   );
@@ -22,6 +22,7 @@ const LeftSectionContainer = styled.div`
     >h3 {
         color: #191919;
         font-size: 13px;
+        margin: 10px 0;
     }
 
     >h4 {
