@@ -11,12 +11,17 @@ export default function RoomSelection({
   setSelectedRoom,
 }) {
   const [rooms, setRooms] = useState(null);
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, changeRoomMode, setChangeRoomMode } = useContext(UserContext);
   const api = useApi();
 
   useEffect(() => {
+    let unmounted = false;
     const roomsPromise = api.hotel.getRoomDetails(hotelData.id);
-    roomsPromise.then((res) => setRooms(res.data));
+    roomsPromise.then((res) => {
+      if(!unmounted) setRooms(res.data);
+    });
+
+    return () => { unmounted = true; };
   }, [hotelData.id]);
 
   function submit() {
@@ -28,13 +33,14 @@ export default function RoomSelection({
           ...userData,
         });
         toast("Reserva realizada");
+        setChangeRoomMode(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }
 
   return (
     <RoomSelectionContainer>
-      {userData.user.reservation ? (
+      {userData.user.reservation.id && !changeRoomMode ? (
         "Já pediu"
       ) : (
         <>

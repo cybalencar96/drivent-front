@@ -26,13 +26,19 @@ export default class HotelApi extends AuthenticatedApi {
     });
   }
 
-  makeReservation(roomId) {
+  makeReservation(roomId, token) {
     return api.post(
       `/room/reservation/${roomId}`,
       {},
       {
-        headers: this.getAuthorizationHeader(),
+        headers: this.getAuthorizationHeader() || token,
       }
     );
+  }
+
+  getUserReservations(userId) {
+    return api.get(`/reservation/${userId}`, {
+      headers: this.getAuthorizationHeader(),
+    });
   }
 }
