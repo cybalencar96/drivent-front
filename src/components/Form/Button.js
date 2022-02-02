@@ -10,6 +10,9 @@ export default function Button({ variant = "contained", children, ...props }) {
 }
 
 const StyledMuiButton = styled(MuiButton)`
-  // TODO verify this line: background-color: ${({ color }) => color.length ? "white" : color} !important; 
+  
+  
   margin-top: 8px !important;
 `;
+// TODO verify line below from StyledMuiButton. It's below because was not commenting inside MuiButton 
+/* background-color: ${({ color }) => color.length ? "white" : color} !important;  */
