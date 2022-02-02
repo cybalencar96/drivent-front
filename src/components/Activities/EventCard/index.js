@@ -6,6 +6,7 @@ import * as helper from "../helpers";
 import UserContext from "../../../contexts/UserContext";
 import UserApi from "../../../services/UserApi";
 import { styles } from "../../../assets/styles/style";
+import { toast } from "react-toastify";
 
 export default function EventCard(props) {
   const { vacancies, uniqueActivity } = props;
@@ -14,12 +15,21 @@ export default function EventCard(props) {
   const [isRegistered, setIsRegistered] = useState(isUserRegisteredToEvent());
 
   function registerToEvent() {
-    UserApi.signInEvents(userData.user.id, uniqueActivity.id).then(res => {
-      userData.user.events.push(res.data.event);
-      setUserData({ ...userData });
-    });
+    UserApi.signInEvents(userData.user.id, uniqueActivity.id)
+      .then(res => {
+        userData.user.events.push(res.data.event);
+        setUserData({ ...userData });
+      })
+      .catch(err => {
+        if (err.response) {
+          if (err.response.data.message.includes("Overlap")) {
+            return toast("Não é possivel se registrar neste evento devido a conflito de tempo");
+          }
+        }
+        return toast("Algo de errado aconteceu.");
+      });
 
-    setIsRegistered(true);
+    setIsRegistered(isUserRegisteredToEvent());
   }
 
   function isUserRegisteredToEvent() {
