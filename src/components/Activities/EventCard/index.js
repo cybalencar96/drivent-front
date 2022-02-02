@@ -19,6 +19,7 @@ export default function EventCard(props) {
       .then(res => {
         userData.user.events.push(res.data.event);
         setUserData({ ...userData });
+        setIsRegistered(isUserRegisteredToEvent());
       })
       .catch(err => {
         if (err.response) {
@@ -26,10 +27,10 @@ export default function EventCard(props) {
             return toast("Não é possivel se registrar neste evento devido a conflito de tempo");
           }
         }
+        // eslint-disable-next-line no-console
+        console.log(err);
         return toast("Algo de errado aconteceu.");
       });
-
-    setIsRegistered(isUserRegisteredToEvent());
   }
 
   function isUserRegisteredToEvent() {
