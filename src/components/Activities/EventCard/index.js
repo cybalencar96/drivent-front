@@ -40,7 +40,7 @@ export default function EventCard(props) {
   return (
     <EventCardContainer eventDuration={duration} isRegistered={isRegistered}>
       <LeftSection uniqueActivity={uniqueActivity} />
-      <RightSection vacancies={vacancies} registerToEvent={registerToEvent} isRegistered={isRegistered}/>
+      <RightSection vacancies={vacancies} usersAmount={uniqueActivity.users} registerToEvent={registerToEvent} isRegistered={isRegistered}/>
     </EventCardContainer>
   );
 }

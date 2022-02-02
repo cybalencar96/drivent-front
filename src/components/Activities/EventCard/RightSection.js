@@ -4,7 +4,7 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import styled from "styled-components";
 
 export default function RightSection(props) {
-  const { vacancies, registerToEvent, isRegistered } = props;
+  const { vacancies, usersAmount, registerToEvent, isRegistered } = props;
 
   function getIconState() {
     if (isRegistered) return "registered";
@@ -26,7 +26,7 @@ export default function RightSection(props) {
     const texts = {
       registered: "Inscrito",
       full: "Esgotado",
-      enabled: `${vacancies} vaga(s)`,
+      enabled: `${vacancies - usersAmount}/${vacancies} vaga(s)`,
     };
 
     return <p>{texts[getIconState()]}</p>;
