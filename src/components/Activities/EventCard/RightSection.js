@@ -3,7 +3,7 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import styled from "styled-components";
 
 export default function RightSection(props) {
-  const { vacancies } = props;
+  const { vacancies, usersAmount } = props;
 
   return (
     <RightSectionContainer vacancies={vacancies}>
@@ -12,7 +12,7 @@ export default function RightSection(props) {
           ? <BiLogIn className="ico" color="#078632" size={22}/>
           : <RiCloseCircleLine className="ico" color="#CC6666" size={22}/>
       }
-      <p>{vacancies > 0 ? `${vacancies} vaga(s)` : "Esgotado"}</p>
+      <p>{vacancies > 0 ? `${vacancies - usersAmount}/${vacancies} vaga(s)` : "Esgotado"}</p>
     </RightSectionContainer>
   );
 }
