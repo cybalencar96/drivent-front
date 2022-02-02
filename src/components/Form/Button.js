@@ -10,6 +10,6 @@ export default function Button({ variant = "contained", children, ...props }) {
 }
 
 const StyledMuiButton = styled(MuiButton)`
-  background-color: ${({ color }) => color.length ? "white" : color} !important; 
+  // TODO verify this line: background-color: ${({ color }) => color.length ? "white" : color} !important; 
   margin-top: 8px !important;
 `;

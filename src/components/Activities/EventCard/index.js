@@ -1,25 +1,42 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import LeftSection from "./LeftSection";
 import RightSection from "./RightSection";
 import * as helper from "../helpers";
+import UserContext from "../../../contexts/UserContext";
+import UserApi from "../../../services/UserApi";
+import { styles } from "../../../assets/styles/style";
 
 export default function EventCard(props) {
   const { vacancies, uniqueActivity } = props;
   const duration = helper.getDurationInHours(uniqueActivity.startDate, uniqueActivity.endDate);
+  const { userData, setUserData } = useContext(UserContext);
+  const [isRegistered, setIsRegistered] = useState(isUserRegisteredToEvent());
+
+  function registerToEvent() {
+    UserApi.signInEvents(userData.user.id, uniqueActivity.id).then(res => {
+      userData.user.events.push(res.data.event);
+      setUserData({ ...userData });
+    });
+
+    setIsRegistered(true);
+  }
+
+  function isUserRegisteredToEvent() {
+    return !!userData.user.events.map(event => event.id === uniqueActivity.id)[0];
+  }
 
   return (
-    <EventCardContainer eventDuration={duration}>
-      <LeftSection 
-        uniqueActivity={uniqueActivity}
-      />
-      <RightSection vacancies={vacancies} />
+    <EventCardContainer eventDuration={duration} isRegistered={isRegistered}>
+      <LeftSection uniqueActivity={uniqueActivity} />
+      <RightSection vacancies={vacancies} registerToEvent={registerToEvent} isRegistered={isRegistered}/>
     </EventCardContainer>
   );
 }
 
 const EventCardContainer = styled.div`
     border-radius: 5px;
-    background-color: #f1f1f1;
+    background-color: ${props => props.isRegistered ? styles.eventCard.color.signed : "#f1f1f1"};
     padding: 15px 0px 15px 15px;
     width: 100%;
     height: ${props => `${+props.eventDuration * 80}px`};
