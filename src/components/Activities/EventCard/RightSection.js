@@ -1,18 +1,42 @@
 import { BiLogIn } from "react-icons/bi";
 import { RiCloseCircleLine } from "react-icons/ri";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 export default function RightSection(props) {
-  const { vacancies, usersAmount } = props;
+  const { vacancies, usersAmount, registerToEvent, isRegistered } = props;
+
+  function getIconState() {
+    if (isRegistered) return "registered";
+    if (vacancies <= 0) return "full";
+    if (vacancies > 0) return "enabled";
+  }
+
+  function renderIcon() {
+    const icons = {
+      registered: <AiOutlineCheckCircle className="ico" color="#078632" size={22} />,
+      full: <RiCloseCircleLine className="ico" color="#CC6666" size={22} onClick={() => toast(" Não foi possível se registrar nesse evento devido as vagas estarem esgotadas")}/>,
+      enabled: <BiLogIn className="ico" color="#078632" size={22} onClick={registerToEvent}/>,
+    };
+
+    return icons[getIconState()];
+  }
+
+  function renderText() {
+    const texts = {
+      registered: "Inscrito",
+      full: "Esgotado",
+      enabled: `${vacancies - usersAmount}/${vacancies} vaga(s)`,
+    };
+
+    return <p>{texts[getIconState()]}</p>;
+  }
 
   return (
     <RightSectionContainer vacancies={vacancies}>
-      {
-        vacancies > 0
-          ? <BiLogIn className="ico" color="#078632" size={22}/>
-          : <RiCloseCircleLine className="ico" color="#CC6666" size={22}/>
-      }
-      <p>{vacancies > 0 ? `${vacancies - usersAmount}/${vacancies} vaga(s)` : "Esgotado"}</p>
+      { renderIcon() }
+      { renderText() }
     </RightSectionContainer>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { toast } from "react-toastify";
-
+import styled from "styled-components";
 import AuthLayout from "../../layouts/Auth";
 
 import Input from "../../components/Form/Input";
@@ -32,7 +32,7 @@ export default function SignIn() {
     }).catch(error => {
       /* eslint-disable-next-line no-console */
       console.error(error.response);
-      
+      setLoadingSignIn(false);
       if (error.response.data.details) {
         for (const detail of error.response.data.details) {
           toast(detail);
@@ -54,7 +54,7 @@ export default function SignIn() {
         <form onSubmit={submit}>
           <Input label="E-mail" type="text" fullWidth value={email} onChange={e => setEmail(e.target.value)} />
           <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</Button>
+          <ButtonC type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</ButtonC>
         </form>
       </Row>
       <Row>
@@ -63,3 +63,7 @@ export default function SignIn() {
     </AuthLayout>
   );
 }
+
+const ButtonC = styled(Button)`
+  background-color : #33459F !important;
+`;

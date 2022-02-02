@@ -27,7 +27,7 @@ export default function Activities() {
     UserApi
       .getAllEvents()
       .then(response => setActivities(response.data))
-      .catch(e => console.log(e));
+      .catch(e => console.error(e));
   }, []);
     
   return (
