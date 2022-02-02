@@ -12,7 +12,7 @@ export default function EventCard(props) {
       <LeftSection 
         uniqueActivity={uniqueActivity}
       />
-      <RightSection vacancies={vacancies} />
+      <RightSection vacancies={vacancies} usersAmount={uniqueActivity.users} />
     </EventCardContainer>
   );
 }
