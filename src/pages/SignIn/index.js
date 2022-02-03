@@ -17,6 +17,7 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loadingSignIn, setLoadingSignIn] = useState(false);
+  const [warning, setWarning] = useState(false);
 
   const api = useApi();
 
@@ -44,6 +45,12 @@ export default function SignIn() {
     });
   } 
 
+  const onKeyDown = keyEvent => {
+    if (keyEvent.code === "CapsLock") {
+      setWarning(!warning);
+    }
+  };
+
   return (
     <AuthLayout background={eventInfo.backgroundImage}>
       <Row>
@@ -54,7 +61,8 @@ export default function SignIn() {
         <Label>Entrar</Label>
         <form onSubmit={submit}>
           <Input label="E-mail" type="text" fullWidth value={email} onChange={e => setEmail(e.target.value)} />
-          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
+          {warning && <Warning>CapsLock está ativo</Warning>}
+          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} onKeyDown={onKeyDown}/>
           <ButtonC type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</ButtonC>
         </form>
       </Row>
@@ -65,6 +73,11 @@ export default function SignIn() {
   );
 }
 
+const Warning = styled.h1`
+  text-align : left;
+  color: gray;
+  margin: 10px 0;
+`;
 const ButtonC = styled(Button)`
   background-color : #33459F !important;
 `;
