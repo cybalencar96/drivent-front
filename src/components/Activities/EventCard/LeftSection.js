@@ -3,7 +3,6 @@ import * as helper from "../helpers";
 
 export default function LeftSection(props) {
   const {
-    eventName,
     uniqueActivity,
   } = props;
 
