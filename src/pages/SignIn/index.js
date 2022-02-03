@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { toast } from "react-toastify";
-
+import styled from "styled-components";
 import AuthLayout from "../../layouts/Auth";
 
 import Input from "../../components/Form/Input";
@@ -17,6 +17,7 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loadingSignIn, setLoadingSignIn] = useState(false);
+  const [warning, setWarning] = useState(false);
 
   const api = useApi();
 
@@ -31,19 +32,24 @@ export default function SignIn() {
       setUserData(response.data);
     }).catch(error => {
       /* eslint-disable-next-line no-console */
-      console.error(error);
-      
-      if (error.response) {
+      console.error(error.response);
+      setLoadingSignIn(false);
+      setPassword("");
+      if (error.response.data.details) {
         for (const detail of error.response.data.details) {
           toast(detail);
         }
       } else {
         toast("Não foi possível conectar ao servidor!");
       }
-    }).then(() => {
-      setLoadingSignIn(false);
     });
   } 
+
+  const onKeyDown = keyEvent => {
+    if (keyEvent.code === "CapsLock") {
+      setWarning(!warning);
+    }
+  };
 
   return (
     <AuthLayout background={eventInfo.backgroundImage}>
@@ -55,8 +61,9 @@ export default function SignIn() {
         <Label>Entrar</Label>
         <form onSubmit={submit}>
           <Input label="E-mail" type="text" fullWidth value={email} onChange={e => setEmail(e.target.value)} />
-          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</Button>
+          {warning && <Warning>CapsLock está ativo</Warning>}
+          <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} onKeyDown={onKeyDown}/>
+          <ButtonC type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</ButtonC>
         </form>
       </Row>
       <Row>
@@ -65,3 +72,12 @@ export default function SignIn() {
     </AuthLayout>
   );
 }
+
+const Warning = styled.h1`
+  text-align : left;
+  color: gray;
+  margin: 10px 0;
+`;
+const ButtonC = styled(Button)`
+  background-color : #33459F !important;
+`;

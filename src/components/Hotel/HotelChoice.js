@@ -1,9 +1,10 @@
 import Container from "./container";
 import useApi from "../../hooks/useApi";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import HotelCard from "../HotelCard";
 import RoomSelection from "../RoomSelection/RoomSelection";
+import UserContext from "../../contexts/UserContext";
 
 export default function HotelChoice({ ticket }) {
   const { hotel } = useApi();

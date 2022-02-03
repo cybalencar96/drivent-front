@@ -7,6 +7,11 @@ const styles = {
     secondary: "#898989",
     borderColor: "#CECECE"
   },
+  eventCard: {
+    color: {
+      signed: "#D0FFDB",
+    }
+  }
 };
 
 export { styles };

@@ -31,18 +31,21 @@ export default function Enroll() {
 
     if (password !== confirmPassword) {
       toast("As senhas devem ser iguais!");
+      setLoadingEnroll(false);
+      return;
     } else {
       api.user.signUp(email, password).then(response => {
         toast("Inscrito com sucesso! Por favor, faça login.");
         history.push("/sign-in");
       }).catch(error => {
-        if (error.response) {
+        if (error.response.data.details) {
           for (const detail of error.response.data.details) {
             toast(detail);
           }
         } else {
           toast("Não foi possível conectar ao servidor!");
         }
+        setLoadingEnroll(!loadingEnroll);
       }).then(() => {
         setLoadingEnroll(false);
       });
