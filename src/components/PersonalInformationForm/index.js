@@ -123,6 +123,13 @@ export default function PersonalInformationForm() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!Object.values(errors).length) {
+      setDynamicInputIsLoading(false);
+    } else {
+      setDynamicInputIsLoading(true);
+    }
+  }, [errors]);
   function isValidCep(cep) {
     return cep.length === 8;
   }
@@ -146,7 +153,6 @@ export default function PersonalInformationForm() {
           errors["cep"] = "Digite um CEP válido";
           return;
         }
-        setDynamicInputIsLoading(false);
         delete errors["cep"];
         delete errors["street"];
         delete errors["city"];
@@ -159,6 +165,12 @@ export default function PersonalInformationForm() {
           neighborhood: data.bairro,
           state: data.uf,
         });
+
+        if (!Object.values(errors).length) {
+          setDynamicInputIsLoading(false);
+        } else {
+          setDynamicInputIsLoading(true);
+        }
       });
     }
     else {
