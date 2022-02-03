@@ -24,14 +24,10 @@ import UserContext from "../../contexts/UserContext";
 
 dayjs.extend(CustomParseFormat);
 export default function PersonalInformationForm() {
-  const [color, setColor] = useState("");
-  const [state, setState] = useState({ name: "" });
+  const [errorCPF, setErrorCPF] = useState("");
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const { userData, setUserData } = useContext(UserContext);
-  const [erro, setErro] = useState("");
-  const [erroBirthday, setErroBirthday] = useState("");
-  const [erroCEP, setErroCEP] = useState("");
   const {
     handleSubmit,
     handleChange,
@@ -43,6 +39,7 @@ export default function PersonalInformationForm() {
     validations: FormValidations,
 
     onSubmit: (data) => {
+      setDynamicInputIsLoading(false);
       const newData = {
         name: data.name,
         cpf: data.cpf,
@@ -58,7 +55,8 @@ export default function PersonalInformationForm() {
         },
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
-      if (erroCEP || Object.values(errors).length) {
+
+      if (Object.values(errors).length) {
         return;
       }
 
@@ -66,17 +64,14 @@ export default function PersonalInformationForm() {
         userData.user.enrolled = true;
 
         setUserData({ ...userData });
-        setErro("");
-        setErroBirthday("");
         toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response?.data?.details) {
           for (const detail of error.response.data.details) {
             if (detail[0] === "C") {
-              setErro("CPF já está em uso ou um CPF inválido");
-            }
-            else if (detail[1] === "b") {
-              setErroBirthday("Insira uma data válida");
+              console.log("aqui");
+              setErrorCPF("CPF já está em uso");
+              setDynamicInputIsLoading(true);
             }
             else {
               toast(detail); 
@@ -130,11 +125,13 @@ export default function PersonalInformationForm() {
   }, []);
 
   useEffect(() => {
-    if (Object.values(errors).length) {
-      setColor("switch");
+    if (!Object.values(errors).length) {
+      setDynamicInputIsLoading(false);
+    } else {
+      setDynamicInputIsLoading(true);
     }
   }, [errors]);
-
+  
   function isValidCep(cep) {
     return cep.length === 8;
   }
@@ -154,16 +151,15 @@ export default function PersonalInformationForm() {
       cep.getAddress(valueWithoutMask).then(({ data }) => {
         setDynamicInputIsLoading(false);
         if (data.erro) {
-          setErroCEP("Digite um CEP válido");
+          setDynamicInputIsLoading(true);
+          errors["cep"] = "Digite um CEP válido";
           return;
         }
-        setErroCEP("");
         delete errors["cep"];
         delete errors["street"];
         delete errors["city"];
         delete errors["neighborhood"];
         delete errors["state"];
-        setColor("");
         setData({
           ...newDataValues,
           street: data.logradouro,
@@ -171,7 +167,17 @@ export default function PersonalInformationForm() {
           neighborhood: data.bairro,
           state: data.uf,
         });
+
+        if (!Object.values(errors).length) {
+          setDynamicInputIsLoading(false);
+        } else {
+          setDynamicInputIsLoading(true);
+        }
       });
+    }
+    else {
+      setDynamicInputIsLoading(true);
+      errors["cep"] = "Digite um CEP válido";
     }
   };
 
@@ -181,15 +187,17 @@ export default function PersonalInformationForm() {
     if (validations[name].isValid(value) === true) {
       delete errors[name];
     } else {
+      if (name === "cpf") {
+        setErrorCPF("");
+      }
       errors[name] = validations[name].isValid(value).message;
     }
   
     if (!Object.values(errors).length) {
-      setColor("");
+      setDynamicInputIsLoading(false);
     } else {
-      setColor("switch");
+      setDynamicInputIsLoading(true);
     }
-    setState({ [name]: value });
   };
   return (
     <>
@@ -224,8 +232,8 @@ export default function PersonalInformationForm() {
               }
               }
             />
-            {errors.cpf && !erro && <ErrorMsg>{errors.cpf}</ErrorMsg>}
-            {!errors.cpf && erro && <ErrorMsg>{erro}</ErrorMsg>}
+            {errors.cpf && !errorCPF && <ErrorMsg>{errors.cpf}</ErrorMsg>}
+            {errorCPF && !errors.cpf && <ErrorMsg>{errorCPF}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <CustomDatePicker
@@ -241,8 +249,7 @@ export default function PersonalInformationForm() {
                 customHandleChange("birthday", (d) => d && dayjs(d).format("DD-MM-YYYY"))(date);
               }}
             />
-            {errors.birthday && !erroBirthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
-            {!errors.birthday && erroBirthday && <ErrorMsg>{erroBirthday}</ErrorMsg>}
+            {errors.birthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
           </InputWrapper>
           <InputWrapper>
             <Input
@@ -268,9 +275,7 @@ export default function PersonalInformationForm() {
                 handleCepChanges(e);
               }}
             />
-            {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}
-            {!errors.cep  && erroCEP && <ErrorMsg>{erroCEP}</ErrorMsg>}
-            
+            {errors.cep && <ErrorMsg>{errors.cep}</ErrorMsg>}            
           </InputWrapper>
           <InputWrapper>
             <Select
@@ -366,7 +371,7 @@ export default function PersonalInformationForm() {
           </InputWrapper>
           
           <SubmitContainer>
-            <Button color={color} type="submit" disabled={dynamicInputIsLoading}>
+            <Button type="submit" disabled={dynamicInputIsLoading}>
               Salvar
             </Button>
           </SubmitContainer>
