@@ -1,3 +1,5 @@
+import CertificateSection from "../../../components/Certificate";
+
 export default function Certificate() {
-  return "Certificado: Em breve!";
+  return <CertificateSection />;
 }
