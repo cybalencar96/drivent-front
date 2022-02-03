@@ -16,7 +16,7 @@ export default function RightSection(props) {
   function renderIcon() {
     const icons = {
       registered: <AiOutlineCheckCircle className="ico" color="#078632" size={22} />,
-      full: <RiCloseCircleLine className="ico" color="#CC6666" size={22} onClick={() => toast(" Não foi possível se registrar nesse evento devido as vagas estarem esgotadas")}/>,
+      full: <RiCloseCircleLine className="ico full" color="#CC6666" size={22} onClick={() => toast(" Não foi possível se registrar nesse evento devido as vagas estarem esgotadas")}/>,
       enabled: <BiLogIn className="ico" color="#078632" size={22} onClick={registerToEvent}/>,
     };
 
@@ -53,6 +53,10 @@ const RightSectionContainer = styled.div`
     >.ico {
         margin-bottom: 5px;
         cursor: pointer;
+    }
+
+    >.full {
+      cursor: not-allowed !important;
     }
 
     >p {
