@@ -33,6 +33,7 @@ export default function SignIn() {
       /* eslint-disable-next-line no-console */
       console.error(error.response);
       setLoadingSignIn(false);
+      setPassword("");
       if (error.response.data.details) {
         for (const detail of error.response.data.details) {
           toast(detail);
