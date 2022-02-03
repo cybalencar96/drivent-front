@@ -78,6 +78,10 @@ export const validations = {
       message: "Digite um número válido",
     },
   },
+
+  addressDetail: {
+    isValid: (value) => true,
+  },
 };
 
 export default validations;
