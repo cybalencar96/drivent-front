@@ -130,6 +130,7 @@ export default function PersonalInformationForm() {
       setDynamicInputIsLoading(true);
     }
   }, [errors]);
+  
   function isValidCep(cep) {
     return cep.length === 8;
   }
