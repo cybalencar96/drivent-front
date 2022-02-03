@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import UserApi from "../../services/UserApi";
 import UserContext from "../../contexts/UserContext";
-import { Document, Page } from "react-pdf";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 
 export default function CertificateSection() {
   const { userData } = useContext(UserContext);
@@ -14,5 +14,9 @@ export default function CertificateSection() {
     promise.then((res) => console.log(res.data));
   }, []);
 
-  return <Document file={url}></Document>;
+  return (
+    <Document file={url}>
+      <Page pageNumber={1} />
+    </Document>
+  );
 }
